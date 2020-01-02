@@ -2,7 +2,11 @@
 
 public class Dragon : MonoBehaviour
 {
-    public Transform target,drag;
+    public Transform target , drag;
+    [Header("旋轉速度"), Range(0, 1000)]
+    public float turn = 1.5f;
+    [Header("移動速度"), Range(0, 1000)]
+    public float speed = 1.5f;
 
     private void Start()
     {
@@ -20,11 +24,21 @@ public class Dragon : MonoBehaviour
     /// </summary>
     private void Track()
     {
-        Vector3 posD = drag.position;         // 恐龍
-        Vector3 posT = target.position;       // 玩家目標
+        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
 
-        posT.z += 8;      
+        //if(v !=0) transform.LookAt(target);
 
-        transform.position = Vector3.Lerp(posD, posT, 0.3f * Time.deltaTime );
+        Vector3 posD = drag.position;           // 恐龍
+        Vector3 posT = target.position*v;       // 玩家目標
+
+
+        posT.x -= 2;
+        posT.y = 0;
+        posT.z -= 2;
+
+        transform.Rotate(0, h * 10, 0);
+        transform.position = Vector3.Lerp(posD, posT, 0.3f * Time.deltaTime * speed);
     }
+
 }
