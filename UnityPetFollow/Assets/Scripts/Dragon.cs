@@ -17,6 +17,7 @@ public class Dragon : MonoBehaviour
     private void FixedUpdate()
     {
         Track();
+        transform.LookAt(target.position);
     }
 
     /// <summary>
@@ -27,18 +28,13 @@ public class Dragon : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
 
-        //if(v !=0) transform.LookAt(target);
+        Vector3 posD = drag.position;                     // 恐龍
+        Vector3 posT = target.position;                   // 玩家目標
 
-        Vector3 posD = drag.position;           // 恐龍
-        Vector3 posT = target.position*v;       // 玩家目標
+        if (h != 0 || v != 0)
+        {
 
-
-        posT.x -= 2;
-        posT.y = 0;
-        posT.z -= 2;
-
-        transform.Rotate(0, h * 10, 0);
-        transform.position = Vector3.Lerp(posD, posT, 0.3f * Time.deltaTime * speed);
+            transform.position = Vector3.Lerp(posD, posT, 0.3f * Time.deltaTime * speed);
+        }
     }
-
 }
